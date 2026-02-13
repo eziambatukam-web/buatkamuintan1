@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Intan 🎂🎉</title>
+
+<style>
+body{
+  margin:0;
+  font-family:sans-serif;
+  color:white;
+  overflow:hidden;
+  text-align:center;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  background:black;
+}
+
+#bgVideo{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:-3;
+}
+
+#fireworkCanvas{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  pointer-events:none;
+  z-index:-1;
+}
+
+#lock{
+  position:fixed;
+  width:100%;height:100%;
+  background:linear-gradient(to bottom,#eaf4ff,#dbefff);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  z-index:10;
+  color:#1d3f6e;
+}
+
+.dots{display:flex;gap:12px;margin:20px 0;}
+.dot{
+  width:18px;height:18px;
+  border-radius:50%;
+  border:2px solid #1d3f6e;
+}
+.dot.filled{background:#1d3f6e;}
+
+.keypad{
+  display:grid;
+  grid-template-columns:repeat(3,80px);
+  gap:15px;
+}
+
+.key{
+  width:80px;height:60px;
+  border-radius:15px;
+  border:none;
+  font-size:20px;
+  background:white;
+  color:#1d3f6e;
+  cursor:pointer;
+}
+
+.slide{
+  display:none;
+  height:100vh;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+}
+.slide.active{display:flex;}
+
+button{
+  margin:10px;
+  padding:8px 18px;
+  border:none;
+  border-radius:20px;
+  background:linear-gradient(45deg,#ff00cc,#3333ff);
+  color:white;
+  cursor:pointer;
+}
+
+.memory-grid{
+  display:grid;
+  grid-template-columns:repeat(2,130px);
+  gap:12px;
+  margin-top:20px;
+}
+.memory-grid img{
+  width:130px;height:170px;
+  object-fit:cover;
+  border-radius:15px;
+}
+
+.explode{
+  position:fixed;
+  left:50%;top:50%;
+  font-size:22px;
+  pointer-events:none;
+  animation:boom 1s ease-out forwards;
+}
+@keyframes boom{
+0%{transform:translate(-50%,-50%) scale(1);opacity:1;}
+100%{transform:translate(calc(-50% + var(--x)),calc(-50% + var(--y))) scale(0.3) rotate(360deg);opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<video id="bgVideo" autoplay muted loop playsinline>
+  <source src="background.mp4" type="video/mp4">
+</video>
+
+<canvas id="fireworkCanvas"></canvas>
+
+<audio id="music" loop>
+  <source src="lagu.mp3" type="audio/mpeg">
+  <source src="music.mp4" type="audio/mp4">
+</audio>
+</audio>
+
+<div id="lock">
+<h2>Hi love, ayo tebak passwordnya,<br>I bet u knoww!!</h2>
+
+<div class="dots">
+<div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+<div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+</div>
+
+<div class="keypad">
+<button class="key" onclick="press(1)">1</button>
+<button class="key" onclick="press(2)">2</button>
+<button class="key" onclick="press(3)">3</button>
+<button class="key" onclick="press(4)">4</button>
+<button class="key" onclick="press(5)">5</button>
+<button class="key" onclick="press(6)">6</button>
+<button class="key" onclick="press(7)">7</button>
+<button class="key" onclick="press(8)">8</button>
+<button class="key" onclick="press(9)">9</button>
+<button class="key" onclick="clearPw()">⌫</button>
+<button class="key" onclick="press(0)">0</button>
+<button class="key" onclick="checkPw()">✔</button>
+</div>
+
+<p style="margin-top:20px;">clue : your birthday</p>
+</div>
+
+<!-- SLIDE 1 -->
+<div class="slide active" id="slide1">
+<h2>Happy Birthday Intan 🎂🎉</h2>
+<p>Semoga hal baik selalu beriringan denganmu, semoga semesta senantiasa berpihak padamu, semoga jalanmu untuk mencapai masa depan yang cerah di permudahkan, teruslah tumbuh, teruslah melangkah & berbahagia. aku akan selalu bangga atas setiap proses yang sudah kamu lalui. selamat bertambah usia, i love u so much and i will always support u</p>
+<button onclick="next()">Next</button>
+</div>
+
+<!-- SLIDE 2 -->
+<div class="slide" id="slide2">
+<h2>Our Memories 📸</h2>
+<div class="memory-grid">
+<img src="foto1.jpg">
+<img src="foto2.jpg">
+<img src="foto3.jpg">
+<img src="foto4.jpg">
+</div>
+<button onclick="next()">Next</button>
+</div>
+
+<!-- SLIDE 3 -->
+<div class="slide" id="slide3">
+<h2>Happy Birthday Intan 🎂🎉</h2>
+<p>Selalu semangatt yaa intan, kalo mau ngeluh ke akuu ajaa yaa, bilang cape nya sama akuu, aku selalu siap menjadi sandaran muu, inti nya jangan pernah nyerah yaa intan!!</p>
+<button onclick="next()">Next</button>
+</div>
+
+<!-- SLIDE 4 -->
+<div class="slide" id="slide4">
+<h2>For You 💌</h2>
+<p>Aku harap di umur kamu sekarang, kamu makin kuat, makin dewasa, dan makin bahagia. Jangan terlalu keras sama diri sendiri yaa. Kamu udah hebat banget sampai sejauh ini.</p>
+<button onclick="next()">Next</button>
+</div>
+
+<!-- SLIDE 5 -->
+<div class="slide" id="slide5">
+<h2>Always With You 🤍</h2>
+<p>Aku mungkin nggak selalu ada di samping kamu setiap waktu, tapi doa dan dukungan aku selalu ada buat kamu. Kamu nggak pernah sendirian.</p>
+<button onclick="next()">Next</button>
+</div>
+
+<!-- SLIDE 6 -->
+<div class="slide" id="slide6">
+<h2>Stay Strong 🌷</h2>
+<p>Kalau dunia terasa berat, istirahatlah sebentar. Tapi jangan pernah berhenti yaa. Karena masa depan cerah itu lagi nunggu kamu.</p>
+<button onclick="next()">Next</button>
+</div>
+
+<!-- SLIDE 7 -->
+<div class="slide" id="slide7">
+<h2>You Deserve Happiness ✨</h2>
+<p>Kamu pantas bahagia. Kamu pantas dicintai. Kamu pantas mendapatkan semua hal baik di dunia ini.</p>
+<button onclick="next()">Next</button>
+</div>
+
+<!-- SLIDE 8 -->
+<div class="slide" id="slide8">
+<h2>Keep Growing 🌸</h2>
+<p>Tumbuhlah menjadi versi terbaik dari dirimu sendiri. Aku akan selalu bangga sama kamu, apa pun yang terjadi.</p>
+<button onclick="next()">Next</button>
+</div>
+
+<!-- SLIDE 9 -->
+<div class="slide" id="slide9">
+<h2>Thank You 💖</h2>
+<p>Terima kasih sudah hadir dan mewarnai hidupku. Terima kasih sudah jadi kamu.</p>
+<button onclick="next()">Next</button>
+</div>
+
+<!-- SLIDE 10 -->
+<div class="slide" id="slide10">
+<h2>Last One 🎂</h2>
+<p>Selamat ulang tahun sekali lagi yaa Intan. Semoga semua mimpi kamu satu per satu jadi kenyataan. I love you 🤍</p>
+<button onclick="next()">Next</button>
+</div>
+
+<script>
+let password="";
+const correct="20120213";
+const dots=document.querySelectorAll(".dot");
+
+function press(num){
+ if(password.length<8){
+  password+=num;
+  dots[password.length-1].classList.add("filled");
+ }
+}
+
+function clearPw(){
+ password="";
+ dots.forEach(d=>d.classList.remove("filled"));
+}
+
+function checkPw(){
+ if(password===correct){
+  document.getElementById("lock").style.display="none";
+  document.getElementById("music").play();
+  prepareTyping();
+  triggerTyping(document.getElementById("slide1"));
+ }else{
+  alert("Wrong Password");
+  clearPw();
+ }
+}
+
+let current=1;
+const totalSlides=10;
+
+function next(){
+ document.getElementById("slide"+current).classList.remove("active");
+ current++;
+ if(current>totalSlides) current=1;
+ let slide=document.getElementById("slide"+current);
+ slide.classList.add("active");
+ triggerTyping(slide);
+ explodeEffect();
+}
+
+/* TYPEWRITER */
+function typeWriter(element,speed=25){
+ let text=element.getAttribute("data-text");
+ element.innerHTML="";
+ let i=0;
+ function typing(){
+  if(i<text.length){
+   element.innerHTML+=text.charAt(i);
+   i++;
+   setTimeout(typing,speed);
+  }
+ }
+ typing();
+}
+
+function prepareTyping(){
+ document.querySelectorAll(".slide p").forEach(p=>{
+  p.setAttribute("data-text",p.innerText);
+ });
+}
+
+function triggerTyping(slide){
+ let p=slide.querySelector("p");
+ if(p) typeWriter(p);
+}
+
+/* EXPLODE */
+function explodeEffect(){
+ for(let i=0;i<25;i++){
+  let e=document.createElement("div");
+  e.className="explode";
+  e.innerHTML=Math.random()>0.5?"🌸":"🦋";
+  e.style.setProperty("--x",(Math.random()-0.5)*500+"px");
+  e.style.setProperty("--y",(Math.random()-0.5)*500+"px");
+  document.body.appendChild(e);
+  setTimeout(()=>e.remove(),1000);
+ }
+}
+</script>
+
+</body>
+</html>
